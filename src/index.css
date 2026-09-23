@@ -1,0 +1,911 @@
+@import "tailwindcss";
+
+:root {
+  --background: #0f172a;
+  --background-secondary: #1e293b;
+  --card: #1e293b;
+  --accent: #06b6d4;
+  --accent-hover: #22d3ee;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --border: rgba(255, 255, 255, 0.08);
+  --glass: rgba(255, 255, 255, 0.05);
+  --glass-strong: rgba(15, 23, 42, 0.72);
+  --shadow: rgba(0, 0, 0, 0.35);
+  --shadow-soft: rgba(8, 145, 178, 0.2);
+  --button-text: #0f172a;
+  --grid-line: rgba(255, 255, 255, 0.045);
+  --noise-dot: rgba(255, 255, 255, 0.42);
+  --hero-gradient: radial-gradient(circle at 18% 18%, rgba(34, 211, 238, 0.22), transparent 30%),
+    radial-gradient(circle at 78% 12%, rgba(59, 130, 246, 0.16), transparent 28%),
+    linear-gradient(135deg, #0f172a 0%, #1e293b 52%, rgba(6, 182, 212, 0.3) 100%);
+  --card-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+  --project-gradient: linear-gradient(135deg, rgba(34, 211, 238, 0.2), rgba(30, 41, 59, 0.92), rgba(99, 102, 241, 0.16));
+  color: var(--text-primary);
+  background: var(--background);
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+:root[data-theme="light"] {
+  --background: #f8fafc;
+  --background-secondary: #ffffff;
+  --card: #ffffff;
+  --accent: #0891b2;
+  --accent-hover: #06b6d4;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --border: #e2e8f0;
+  --glass: rgba(255, 255, 255, 0.7);
+  --glass-strong: rgba(255, 255, 255, 0.86);
+  --shadow: rgba(15, 23, 42, 0.08);
+  --shadow-soft: rgba(8, 145, 178, 0.14);
+  --button-text: #f8fafc;
+  --grid-line: rgba(8, 145, 178, 0.08);
+  --noise-dot: rgba(8, 145, 178, 0.16);
+  --hero-gradient: radial-gradient(circle at 16% 14%, rgba(6, 182, 212, 0.16), transparent 30%),
+    radial-gradient(circle at 82% 18%, rgba(255, 255, 255, 0.95), transparent 28%),
+    linear-gradient(135deg, #f8fafc 0%, #ffffff 54%, rgba(6, 182, 212, 0.16) 100%);
+  --card-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(240, 249, 255, 0.86));
+  --project-gradient: linear-gradient(135deg, rgba(8, 145, 178, 0.16), rgba(255, 255, 255, 0.92), rgba(6, 182, 212, 0.12));
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100svh;
+  margin: 0;
+  overflow-x: hidden;
+  color: var(--text-primary);
+  background: var(--background);
+  transition:
+    background-color 320ms ease,
+    color 320ms ease;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+#root {
+  min-height: 100svh;
+}
+
+::selection {
+  color: var(--button-text);
+  background: var(--accent-hover);
+}
+
+@layer components {
+  .section-shell {
+    @apply mx-auto w-full max-w-7xl px-5 py-20 md:py-28;
+  }
+
+  .app-background {
+    background: var(--hero-gradient);
+    transition: background 360ms ease;
+  }
+
+  .text-primary {
+    color: var(--text-primary);
+  }
+
+  .text-secondary {
+    color: var(--text-secondary);
+  }
+
+  .text-muted {
+    color: var(--text-muted);
+  }
+
+  .text-accent {
+    color: var(--accent);
+  }
+
+  .eyebrow {
+    @apply text-sm font-semibold uppercase tracking-[0.32em];
+    color: var(--accent);
+  }
+
+  .theme-transition,
+  .theme-transition * {
+    transition:
+      background-color 320ms ease,
+      border-color 320ms ease,
+      color 320ms ease,
+      box-shadow 320ms ease,
+      fill 320ms ease,
+      stroke 320ms ease,
+      opacity 320ms ease,
+      transform 250ms ease;
+  }
+
+  .glass-card {
+    @apply relative overflow-hidden rounded-2xl border backdrop-blur-xl;
+    color: var(--text-primary);
+    background: var(--card-gradient);
+    border-color: var(--border);
+    box-shadow: 0 24px 70px var(--shadow);
+  }
+
+  .glass-card::before {
+    content: "";
+    @apply pointer-events-none absolute inset-x-0 top-0 h-px;
+    background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent) 70%, white), transparent);
+  }
+
+  .magnetic-button {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border px-5 py-3 text-sm font-semibold outline-none;
+    color: var(--button-text);
+    background: var(--accent);
+    border-color: color-mix(in srgb, var(--accent) 72%, transparent);
+    box-shadow: 0 14px 34px var(--shadow-soft), 0 0 22px color-mix(in srgb, var(--accent) 20%, transparent);
+  }
+
+  .magnetic-button:hover {
+    background: var(--accent-hover);
+    transform: scale(1.03);
+    box-shadow: 0 18px 42px var(--shadow-soft), 0 0 34px color-mix(in srgb, var(--accent-hover) 28%, transparent);
+  }
+
+  .magnetic-button:focus-visible,
+  .icon-button:focus-visible,
+  .nav-link:focus-visible,
+  .mobile-link:focus-visible,
+  .theme-toggle:focus-visible,
+  .brand-mark:focus-visible,
+  .social-link:focus-visible {
+    outline: 2px solid var(--accent-hover);
+    outline-offset: 3px;
+  }
+
+  .magnetic-button-ghost {
+    color: var(--text-primary);
+    background: var(--glass);
+    border-color: var(--border);
+    box-shadow: none;
+  }
+
+  .magnetic-button-ghost:hover {
+    color: var(--text-primary);
+    background: color-mix(in srgb, var(--accent) 12%, var(--glass));
+    border-color: color-mix(in srgb, var(--accent) 42%, var(--border));
+  }
+
+  .icon-button {
+    @apply inline-grid h-10 w-10 place-items-center rounded-full border;
+    color: var(--text-secondary);
+    background: var(--glass);
+    border-color: var(--border);
+  }
+
+  .icon-button:hover {
+    color: var(--text-primary);
+    background: color-mix(in srgb, var(--accent) 13%, var(--glass));
+    border-color: color-mix(in srgb, var(--accent) 44%, var(--border));
+    transform: translateY(-1px);
+  }
+
+  .social-link {
+    @apply inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm;
+    color: var(--text-secondary);
+    background: var(--glass);
+    border-color: var(--border);
+  }
+
+  .social-link:hover {
+    color: var(--text-primary);
+    background: color-mix(in srgb, var(--accent) 10%, var(--glass));
+    border-color: color-mix(in srgb, var(--accent) 42%, var(--border));
+    transform: translateY(-1px);
+  }
+
+  .nav-shell {
+    @apply mx-auto flex items-center justify-between rounded-full border px-4 backdrop-blur-2xl;
+
+    max-width: 80rem;
+
+    background: var(--glass-strong);
+    border-color: var(--border);
+    box-shadow: 0 18px 55px var(--shadow);
+  }
+
+  /* .nav-shell-compact {
+    @apply max-w-5xl py-2;
+    background: color-mix(in srgb, var(--glass-strong) 92%, var(--background-secondary));
+  } */
+
+  .brand-mark {
+    @apply grid h-11 w-11 place-items-center rounded-full text-base font-black;
+    color: var(--button-text);
+    background: var(--accent);
+    box-shadow: 0 12px 34px var(--shadow-soft);
+  }
+
+  .brand-mark:hover {
+    background: var(--accent-hover);
+    transform: scale(1.06) rotate(-3deg);
+  }
+
+  .nav-link {
+    @apply relative rounded-full px-4 py-2 text-sm font-medium;
+    color: var(--text-secondary);
+  }
+
+  .nav-link:hover {
+    color: var(--text-primary);
+  }
+
+  .active-pill {
+    @apply absolute inset-0 -z-10 rounded-full ring-1;
+    background: color-mix(in srgb, var(--accent) 11%, var(--glass));
+    --tw-ring-color: color-mix(in srgb, var(--accent) 20%, var(--border));
+  }
+
+  .theme-toggle {
+    @apply relative grid h-10 w-[4.65rem] grid-cols-2 items-center rounded-full border p-1;
+    color: var(--text-secondary);
+    background: var(--glass);
+    border-color: var(--border);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 7%, transparent);
+  }
+
+  .theme-toggle:hover {
+    color: var(--text-primary);
+    border-color: color-mix(in srgb, var(--accent) 38%, var(--border));
+    box-shadow: 0 0 24px color-mix(in srgb, var(--accent) 18%, transparent);
+  }
+
+  .theme-toggle-thumb {
+    @apply absolute left-1 top-1 grid h-8 w-8 place-items-center rounded-full;
+    color: var(--button-text);
+    background: var(--accent);
+    box-shadow: 0 8px 24px var(--shadow-soft);
+  }
+
+  .mobile-link {
+    @apply block w-full rounded-xl px-4 py-3 text-left text-sm font-medium;
+    color: var(--text-secondary);
+  }
+
+  .mobile-link:hover {
+    color: var(--text-primary);
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+  }
+
+  .mobile-menu {
+    @apply mx-auto mt-3 max-w-sm rounded-2xl border p-3 backdrop-blur-2xl md:hidden;
+    background: var(--glass-strong);
+    border-color: var(--border);
+    box-shadow: 0 18px 55px var(--shadow);
+  }
+
+  .hero-section {
+    @apply relative flex min-h-[92svh] items-center justify-center overflow-hidden px-5 pb-16 pt-24 md:pt-28;
+  }
+
+  .hero-content {
+    @apply relative z-10 mx-auto flex w-full max-w-6xl flex-col items-center text-center;
+  }
+
+  .availability-badge {
+    @apply mb-6 inline-flex max-w-full items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium;
+    color: var(--text-secondary);
+    background: color-mix(in srgb, var(--accent) 9%, var(--glass));
+    border-color: color-mix(in srgb, var(--accent) 26%, var(--border));
+    box-shadow: 0 14px 34px var(--shadow-soft);
+  }
+
+  .availability-badge svg {
+    color: var(--accent);
+  }
+
+  .hero-heading {
+    @apply mt-5 flex flex-col items-center gap-1 text-balance leading-none tracking-[-0.045em];
+    color: var(--text-primary);
+  }
+
+  .hero-heading span {
+    @apply text-2xl font-medium tracking-[-0.02em] md:text-4xl;
+    color: var(--text-secondary);
+  }
+
+  .hero-heading strong {
+    @apply text-6xl font-black md:text-8xl lg:text-9xl;
+    background: linear-gradient(135deg, var(--text-primary), var(--accent-hover) 48%, var(--accent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 18px 60px color-mix(in srgb, var(--accent) 16%, transparent);
+  }
+
+  .hero-title {
+    @apply mt-5 inline-flex min-h-11 items-center justify-center rounded-full border px-5 py-2 text-base font-semibold md:text-xl;
+    min-width: min(100%, 19.5rem);
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 9%, var(--glass));
+    border-color: color-mix(in srgb, var(--accent) 24%, var(--border));
+  }
+
+  .typing-caret {
+    @apply ml-1 inline-block h-5 w-0.5 md:h-6;
+    background: var(--accent);
+    animation: caret-blink 1s steps(1) infinite;
+  }
+
+  .hero-intro {
+    @apply mt-6 max-w-3xl text-pretty text-base leading-7 md:text-xl md:leading-8;
+    color: var(--text-secondary);
+  }
+
+  .hero-actions {
+    @apply mt-8;
+  }
+
+  .hero-socials {
+    @apply mt-7;
+  }
+
+  .about-photo-card {
+    @apply relative mx-auto max-w-sm p-4 md:p-5;
+  }
+
+  .photo-glow {
+    @apply pointer-events-none absolute inset-3 rounded-[1.75rem] blur-2xl;
+    background: color-mix(in srgb, var(--accent-hover) 24%, transparent);
+  }
+
+  .photo-frame {
+    @apply relative overflow-hidden rounded-[1.5rem] border;
+    aspect-ratio: 4 / 5;
+    border-color: color-mix(in srgb, var(--accent) 26%, var(--border));
+    background: radial-gradient(circle at 30% 22%, color-mix(in srgb, var(--accent-hover) 22%, transparent), transparent 34%),
+      color-mix(in srgb, var(--background-secondary) 82%, var(--glass));
+  }
+
+  .profile-photo {
+    @apply h-full w-full object-cover;
+  }
+
+  .profile-photo-placeholder {
+    @apply grid h-full w-full place-items-center text-7xl font-black tracking-[-0.08em];
+    color: var(--accent);
+  }
+
+  .photo-badge {
+    @apply absolute bottom-8 left-1/2 -translate-x-1/2 rounded-full border px-4 py-2 text-sm font-semibold backdrop-blur-xl;
+    color: var(--button-text);
+    background: var(--accent);
+    border-color: color-mix(in srgb, var(--accent-hover) 40%, transparent);
+    box-shadow: 0 16px 36px var(--shadow-soft);
+  }
+
+  .about-photo-card:hover .photo-frame {
+    transform: translateY(-0.25rem);
+    box-shadow: 0 26px 80px var(--shadow), 0 0 44px var(--shadow-soft);
+  }
+
+  .info-grid {
+    @apply grid gap-3 sm:grid-cols-2;
+  }
+
+  .info-tile {
+    @apply rounded-2xl border p-4;
+    background: var(--glass);
+    border-color: var(--border);
+  }
+
+  .info-tile span {
+    @apply block text-xs font-semibold uppercase tracking-[0.2em];
+    color: var(--text-muted);
+  }
+
+  .info-tile strong {
+    @apply mt-2 block text-sm font-semibold md:text-base;
+    color: var(--text-primary);
+  }
+
+  .scroll-cue {
+    @apply absolute bottom-7 left-1/2 grid h-11 w-11 -translate-x-1/2 place-items-center rounded-full border;
+    color: var(--accent);
+    background: var(--glass);
+    border-color: var(--border);
+    animation: float 2.4s ease-in-out infinite;
+  }
+
+  .scroll-cue:hover {
+    color: var(--text-primary);
+    border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+    background: color-mix(in srgb, var(--accent) 12%, var(--glass));
+  }
+
+  .skill-board,
+  .form-panel {
+    @apply relative overflow-hidden rounded-2xl border p-5 shadow-2xl backdrop-blur-xl md:p-8;
+    background: var(--glass);
+    border-color: var(--border);
+    box-shadow: 0 24px 70px var(--shadow);
+  }
+
+  .skill-node {
+    @apply relative overflow-hidden rounded-2xl border p-5 duration-300;
+    background: color-mix(in srgb, var(--background-secondary) 68%, var(--glass));
+    border-color: var(--border);
+  }
+
+  .skill-node:hover {
+    border-color: color-mix(in srgb, var(--accent) 44%, var(--border));
+    transform: translateY(-0.25rem);
+  }
+
+  .skill-node::after {
+    content: "";
+    @apply absolute -right-16 -top-16 h-40 w-40 rounded-full blur-3xl;
+  }
+
+  .skill-node-cyan::after {
+    background: color-mix(in srgb, var(--accent-hover) 22%, transparent);
+  }
+
+  .skill-node-blue::after {
+    background: color-mix(in srgb, #60a5fa 20%, transparent);
+  }
+
+  .skill-node-violet::after {
+    background: color-mix(in srgb, #a78bfa 20%, transparent);
+  }
+
+  .node-icon {
+    @apply grid h-12 w-12 place-items-center rounded-2xl border;
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 11%, transparent);
+    border-color: color-mix(in srgb, var(--accent) 26%, var(--border));
+  }
+
+  .skill-chip,
+  .chip {
+    @apply rounded-full border px-3 py-1 text-xs;
+    color: var(--text-secondary);
+    background: var(--glass);
+    border-color: var(--border);
+  }
+
+  .project-perspective {
+    perspective: 1200px;
+  }
+
+  .project-card {
+    @apply h-full p-4 duration-500;
+  }
+
+  .project-card:hover {
+    border-color: color-mix(in srgb, var(--accent) 42%, var(--border));
+    transform: translateY(-0.5rem);
+  }
+
+  .project-visual {
+  @apply relative overflow-hidden rounded-xl border;
+  aspect-ratio: 16 / 9;
+  background: var(--project-gradient);
+  border-color: var(--border);
+}
+
+  .project-loader {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0.15);
+    border-top-color: var(--accent);
+    animation: spin 0.9s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .project-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: .6rem;
+    padding: 1.5rem;
+    text-align: center;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at top, rgba(6, 182, 212, .18), transparent 55%),
+      linear-gradient(135deg, #0f172a, #16213e);
+  }
+
+  .project-placeholder h3 {
+    color: var(--text-primary);
+    font-size: 1.35rem;
+    font-weight: 700;
+  }
+
+  .project-placeholder p {
+    color: var(--text-secondary);
+    max-width: 260px;
+    line-height: 1.5;
+  }
+
+  .visual-toolbar {
+    @apply flex gap-2 border-b p-3;
+    background: color-mix(in srgb, var(--background) 18%, transparent);
+    border-color: var(--border);
+  }
+
+  .visual-toolbar span {
+    @apply h-2.5 w-2.5 rounded-full;
+    background: color-mix(in srgb, var(--text-primary) 32%, transparent);
+  }
+
+  .visual-wave {
+    @apply absolute bottom-6 left-5 h-20 w-36 rounded-full border;
+    border-color: color-mix(in srgb, var(--accent) 34%, transparent);
+    filter: blur(0.2px);
+  }
+
+  .visual-bars {
+    @apply absolute bottom-5 right-5 flex items-end gap-2;
+  }
+
+  .visual-bars i {
+    @apply block w-3 rounded-full;
+    background: color-mix(in srgb, var(--accent-hover) 62%, transparent);
+  }
+
+  .visual-bars i:nth-child(1) {
+    @apply h-10;
+  }
+
+  .visual-bars i:nth-child(2) {
+    @apply h-16;
+  }
+
+  .visual-bars i:nth-child(3) {
+    @apply h-8;
+  }
+
+  .visual-bars i:nth-child(4) {
+    @apply h-20;
+  }
+
+  .timeline {
+    @apply relative mt-10 space-y-5;
+  }
+
+  .timeline::before {
+    content: "";
+    @apply absolute bottom-0 left-5 top-0 w-px md:left-6;
+    background: var(--border);
+  }
+
+  .timeline-item {
+    @apply relative grid gap-4 pl-14 md:grid-cols-[auto_1fr] md:pl-0;
+  }
+
+  .timeline-marker {
+    @apply absolute left-0 top-1 grid h-10 w-10 place-items-center rounded-full border md:relative md:left-auto;
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 10%, var(--glass));
+    border-color: color-mix(in srgb, var(--accent) 24%, var(--border));
+  }
+
+  .timeline-panel {
+    @apply rounded-2xl border p-5 backdrop-blur-xl;
+    background: var(--glass);
+    border-color: var(--border);
+  }
+
+  .timeline-panel:hover {
+    border-color: color-mix(in srgb, var(--accent) 34%, var(--border));
+  }
+
+  .timeline-list {
+    @apply mt-4 grid gap-2 text-sm;
+    color: var(--text-secondary);
+  }
+
+  .timeline-list li {
+    @apply flex gap-2;
+  }
+
+  .timeline-list span {
+    @apply mt-2 h-1.5 w-1.5 shrink-0 rounded-full;
+    background: var(--accent-hover);
+  }
+
+  .period-pill {
+    @apply rounded-full border px-3 py-1 text-xs uppercase tracking-[0.18em];
+    color: var(--text-muted);
+    border-color: var(--border);
+    background: var(--glass);
+  }
+
+  .tech-river {
+    @apply flex overflow-hidden rounded-2xl border py-4;
+    background: var(--glass);
+    border-color: var(--border);
+    mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+  }
+
+  .tech-river span {
+    @apply mx-3 shrink-0 rounded-full border px-5 py-3 text-sm;
+    color: var(--text-secondary);
+    background: color-mix(in srgb, var(--background-secondary) 72%, var(--glass));
+    border-color: var(--border);
+    animation: river 24s linear infinite;
+    animation-delay: var(--delay);
+  }
+
+  .field {
+    @apply w-full rounded-xl border px-4 py-3 outline-none;
+    color: var(--text-primary);
+    background: var(--glass);
+    border-color: var(--border);
+  }
+
+  .field::placeholder {
+    color: var(--text-muted);
+  }
+
+  .field:focus {
+    background: color-mix(in srgb, var(--accent) 7%, var(--glass));
+    border-color: color-mix(in srgb, var(--accent) 56%, var(--border));
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 14%, transparent);
+  }
+
+  .contact-link {
+    @apply flex items-center gap-3 rounded-lg border px-4 py-3;
+    color: var(--text-secondary);
+    background: var(--glass);
+    border-color: var(--border);
+  }
+
+  .contact-link:hover {
+    color: var(--text-primary);
+    border-color: color-mix(in srgb, var(--accent) 42%, var(--border));
+    background: color-mix(in srgb, var(--accent) 10%, var(--glass));
+  }
+
+  .certificate-art {
+    @apply mb-8 h-28 rounded-xl border p-4;
+    background: radial-gradient(circle at 30% 20%, color-mix(in srgb, var(--accent-hover) 24%, transparent), transparent 32%),
+      linear-gradient(135deg, color-mix(in srgb, var(--text-primary) 9%, transparent), color-mix(in srgb, var(--accent) 8%, transparent));
+    border-color: color-mix(in srgb, var(--accent) 22%, var(--border));
+  }
+
+  .certificate-art-inner {
+    @apply h-full rounded-lg border;
+    background: color-mix(in srgb, var(--background) 18%, transparent);
+    border-color: var(--border);
+  }
+
+  .loader-screen {
+    background: var(--background);
+  }
+
+  .loader-ring {
+    border-color: color-mix(in srgb, var(--accent) 28%, transparent);
+    border-top-color: var(--accent-hover);
+  }
+
+  .scroll-progress {
+    background: var(--accent-hover);
+  }
+
+  .footer-shell {
+    @apply border-t px-5 py-8 text-center text-sm;
+    color: var(--text-muted);
+    border-color: var(--border);
+  }
+
+  .back-home-button {
+    @apply fixed z-[75] grid h-14 w-14 place-items-center overflow-hidden rounded-2xl border outline-none;
+    right: 2rem;
+    bottom: 2rem;
+    color: #0f172a;
+    background: #06b6d4;
+    border-color: color-mix(in srgb, var(--text-primary) 14%, transparent);
+    box-shadow: 0 16px 38px rgba(6, 182, 212, 0.28), 0 0 28px rgba(6, 182, 212, 0.22);
+  }
+
+  .back-home-button:hover {
+    background: #22d3ee;
+    box-shadow: 0 20px 48px rgba(6, 182, 212, 0.34), 0 0 38px rgba(34, 211, 238, 0.28);
+  }
+
+  .back-home-button:focus-visible {
+    outline: 2px solid var(--accent-hover);
+    outline-offset: 4px;
+  }
+
+  .back-home-button svg {
+    @apply relative z-10;
+  }
+
+  .back-home-ripple {
+    @apply absolute inset-0 scale-0 rounded-2xl opacity-0;
+    background: radial-gradient(circle, rgba(248, 250, 252, 0.45), transparent 62%);
+  }
+
+  .back-home-button:active .back-home-ripple {
+    animation: ripple 420ms ease-out;
+  }
+}
+
+@layer utilities {
+  .grid-overlay {
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(circle at center, black, transparent 78%);
+  }
+
+  .noise-overlay {
+    opacity: 0.12;
+    background-image: radial-gradient(var(--noise-dot) 0.6px, transparent 0.6px);
+    background-size: 12px 12px;
+  }
+
+  :root[data-theme="light"] .noise-overlay {
+    opacity: 0.05;
+  }
+
+  .constellation-grid {
+    background-image:
+      radial-gradient(circle, color-mix(in srgb, var(--accent) 24%, transparent) 1px, transparent 1px),
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 34px 34px, 68px 68px, 68px 68px;
+  }
+
+  .aurora-sheet {
+    @apply absolute h-72 w-72 rounded-full blur-3xl;
+    animation: float 9s ease-in-out infinite;
+  }
+
+  .aurora-sheet-one {
+    @apply left-[12%] top-[18%];
+    background: color-mix(in srgb, var(--accent-hover) 18%, transparent);
+  }
+
+  .aurora-sheet-two {
+    @apply bottom-[12%] right-[10%];
+    background: color-mix(in srgb, #60a5fa 14%, transparent);
+    animation-delay: -3s;
+  }
+
+  .particle-field {
+    @apply absolute inset-0 opacity-30;
+    background-image: radial-gradient(var(--noise-dot) 1px, transparent 1px);
+    background-size: 90px 90px;
+    animation: drift 18s linear infinite;
+  }
+
+  :root[data-theme="light"] .particle-field {
+    opacity: 0.08;
+  }
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes drift {
+  to {
+    background-position: 90px 90px;
+  }
+}
+
+@keyframes river {
+  to {
+    transform: translateX(-50vw);
+  }
+}
+
+@keyframes ripple {
+  0% {
+    opacity: 0.5;
+    transform: scale(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.8);
+  }
+}
+
+@keyframes caret-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    min-height: 100svh;
+    padding-top: 6rem;
+    padding-bottom: 4.5rem;
+  }
+
+  .hero-heading strong {
+    font-size: clamp(2.75rem, 14vw, 4.75rem);
+  }
+
+  .hero-heading span {
+    font-size: clamp(1.35rem, 7vw, 2rem);
+  }
+
+  .hero-title {
+    font-size: 0.95rem;
+  }
+
+  .hero-intro {
+    max-width: 34rem;
+  }
+
+  .availability-badge {
+    font-size: 0.78rem;
+    padding-inline: 0.85rem;
+  }
+
+  .back-home-button {
+    right: 1.25rem;
+    bottom: 1.25rem;
+    height: 3rem;
+    width: 3rem;
+    border-radius: 1rem;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .back-home-button {
+    right: 1.5rem;
+    bottom: 1.5rem;
+  }
+}
