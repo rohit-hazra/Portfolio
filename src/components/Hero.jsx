@@ -55,13 +55,11 @@ function Hero() {
           setDeleting(true)
           return
         }
-
         if (deleting && isEmpty) {
           setDeleting(false)
           setTitleIndex((index) => (index + 1) % titles.length)
           return
         }
-
         setLetterCount((count) => count + (deleting ? -1 : 1))
       },
       !deleting && isComplete ? holdDelay : deleting ? deletingDelay : typingDelay,

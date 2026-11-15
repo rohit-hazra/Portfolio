@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react'
-import { AnimatePresence, motion, useScroll, useSpring } from 'framer-motion'
+import { motion, useScroll, useSpring } from 'framer-motion'
 import {
   achievements,
   aboutInfo,
@@ -20,7 +19,6 @@ import Counter from './components/Counter'
 import Footer from './components/Footer'
 import GlassCard from './components/GlassCard'
 import Hero from './components/Hero'
-import Loader from './components/Loader'
 import Navbar from './components/Navbar'
 import ProjectCard from './components/ProjectCard'
 import SectionTitle from './components/SectionTitle'
@@ -38,18 +36,11 @@ const reveal = {
 }
 
 function App() {
-  const [loading, setLoading] = useState(true)
   const { scrollYProgress } = useScroll()
   const scaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 24 })
 
-  useEffect(() => {
-    const timer = window.setTimeout(() => setLoading(false), 900)
-    return () => window.clearTimeout(timer)
-  }, [])
-
   return (
     <>
-      <AnimatePresence>{loading && <Loader />}</AnimatePresence>
       <motion.div className="scroll-progress fixed left-0 top-0 z-[80] h-1 origin-left" style={{ scaleX }} />
       <BackgroundEffects />
       <Navbar />

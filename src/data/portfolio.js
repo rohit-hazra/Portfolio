@@ -11,17 +11,14 @@ import {
   Layers3,
   Mail,
   MonitorSmartphone,
-  Palette,
   Phone,
   Server,
-  ShieldCheck,
   TerminalSquare,
-  WalletCards,
   Workflow,
 } from 'lucide-react'
 import expenseFlowImage from '../assets/ExpenseFlow.png'
-import portfolioImage from '../assets/portfolio.png'
 import resolveNowImage from '../assets/ResolveNow.png'
+import MindLensImage from '../assets/MindLens_AI.png'
 import resumePdf from '../assets/Rohit_Resume.pdf'
 
 export const profile = {
@@ -107,7 +104,7 @@ export const skillGroups = [
 
 export const projects = [
   {
-    title: 'ResolveNow - Digital Complaint & Resolution System',
+    title: 'ResolveNow',
     category: 'Full-Stack Platform',
     description:
       'A web-based complaint management platform for submitting, tracking, and resolving complaints with secure authentication and role-based access.',
@@ -133,33 +130,36 @@ export const projects = [
       'Budget-focused dashboard',
       'Insight-driven financial overview',
     ],
-    github: profile.github,
+    github: "https://github.com/rohit-hazra/ExpenseFlow",
     demo: '#',
     metric: 'Personal finance UI',
     image: expenseFlowImage,
   },
   {
-    title: 'Personal Portfolio',
-    category: 'Responsive Portfolio',
+    title: 'MindLens AI',
+    category: 'Explainable AI Research System',
     description:
-      'A modern portfolio showcasing projects, technical skills, internships, and achievements with premium UI, smooth animation, and dark/light themes.',
+      'A context-aware, explainable deep-learning system for analysing suicidal-ideation signals in social-media captions. It is designed as a research-oriented support tool, not a clinical diagnosis tool.',
     stack: [
-      'MongoDB',
-      'Express.js',
       'React',
-      'Node.js',
+      'Express.js',
       'Tailwind CSS',
-      'Framer Motion',
+      'FastAPI',
+      'Python',
+      'DistilRoBERTa',
+      'BiGRU',
+      'Context Attention',
     ],
     features: [
-      'Theme-aware design system',
-      'Smooth section animations',
-      'Fully responsive layout',
+      'Context-aware caption analysis',
+      'DistilRoBERTa, BiGRU, and context-attention model pipeline',
+      'React interface connected to FastAPI model inference',
+      'Explainability-focused prediction output',
     ],
-    github: profile.github,
+    github: "https://github.com/rohit-hazra/MindLensAI",
     demo: '#',
-    metric: 'Personal brand',
-    image: portfolioImage,
+    metric: 'AI inference workflow',
+    image: MindLensImage,
   },
 ]
 
